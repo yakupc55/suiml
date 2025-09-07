@@ -23,6 +23,16 @@ function parser.parseHTML(html)
         local gotoTarget = attrs:match('goto%s*=%s*"(.-)"')
         if gotoTarget then node.goto = gotoTarget end
 
+        --if for sistemleri
+        if tag == "if" then
+            local condition = attrs:match('condition%s*=%s*"(.-)"')
+            node.condition = condition 
+        end
+        if tag == "for" then
+        local each = attrs:match('each%s*=%s*"(.-)"')
+        local inVar = attrs:match('in%s*=%s*"(.-)"')
+        node.each = each;
+        node.inVar = inVar end
         table.insert(nodes, node)
     end
     return nodes

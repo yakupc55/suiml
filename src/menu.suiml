@@ -1,25 +1,31 @@
 <load>
-  <config key="PLAYER_NAME">Guest</config>
-
+  <config key="PLAYER_NAME">player</config>
+  
+  <script>
+    PLAYER_LIST = {"Alice","Bob","Charlie"}
+    IS_HARD_MODE = true
+  </script>
   <keypress key="space">
-    print("Global: Space tuşuna basıldı")
+    print("işlem yapılıyor.")
+    IS_HARD_MODE = (not IS_HARD_MODE)
+    print(IS_HARD_MODE)
   </keypress>
 </load>
-
 <area name="main">
-  <p style="color: red; fontsize:12;">Merhaba {{PLAYER_NAME}}!</p>
-  <button style="color: #b3ff02; fontsize:18" goto="game">Oyuna Başla</button>
-  <button style="color: #b3ff02; fontsize:18" goto="game">Oyuna Başla</button>
-  <button style="color: #b3ff02; fontsize:18" goto="game">Oyuna Başla</button>
-  <button style="color: #b3ff02; fontsize:18" goto="game">Oyuna Başla</button>
-  <br><br/>
-  <p style="color: red; fontsize:12;">Merhaba {{PLAYER_NAME}}!</p>
-  <p style="color: red; fontsize:12;">Merhaba {{PLAYER_NAME}}!</p>
+  <p style="color:#ff0000; font-size:24">Merhaba {{PLAYER_NAME}}</p>
 
-</area>
+  <if condition="IS_HARD_MODE">
+    <p>Zor mod aktif!</p>
+  <else>
+    <p>Kolay mod</p>
+  </else>
+  </if>
 
-<area name="game">
-  <s>Oyun başladı, bol şans {{PLAYER_NAME}}!</s>
-  <button goto="main">Ana Menü</button>
+  <for each="player" in="PLAYER_LIST">
+    <p>sen {{player}}</p>
+
+  </for>
+
+  <button style="color:#ffffff; background-color:#0000ff; font-size:20">Ana Menü</button>
 
 </area>

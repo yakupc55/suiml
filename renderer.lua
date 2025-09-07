@@ -42,13 +42,16 @@ function renderer.renderNode(node)
     love.graphics.setFont(font)
     
     local x, y
-    --print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
+    print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
     -- bazı özel node’lar alt satıra geçer
-    if node.tag == "area" then
+    if node.tag == "area" or node.tag == "load" then
         x = 0
         y = 0
         renderer.cursorX = 0
         renderer.cursorY = 0
+    elseif node.tag == "for" or node.tag == "if" or node.tag == "else" then
+        renderer.cursorX = renderer.cursorX
+        renderer.cursorY = renderer.cursorY
     elseif node.tag == "p" or node.tag == "br" then
         -- alt satıra geç ve node boyutunu dikkate al
         renderer.cursorY = renderer.cursorY + spacing;
@@ -68,9 +71,38 @@ function renderer.renderNode(node)
         spacing = height;
         --lineHeight = math.max(lineHeight, height)
     end
-    --print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
+    print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
     -- node çizimi
-    if node.tag == "button" then
+    if node.tag == "if" then
+            local ok = false
+            if node.condition then
+                ok = _G[node.condition] == true
+            end
+            if ok then
+                for _, child in ipairs(node.children) do
+                    y = renderer.renderNode(child, x, y)
+                end
+            else
+                -- check for else
+                for _, child in ipairs(node.children) do
+                    if child.tag == "else" then
+                        for _, c in ipairs(child.children) do
+                            y = renderer.renderNode(c, x, y)
+                        end
+                    end
+                end
+            end
+    elseif node.tag == "for" then
+            local tbl = _G[node.inVar] or {}
+            for _, item in ipairs(tbl) do
+                _G[node.each] = item
+                for _, child in ipairs(node.children) do
+                    y = renderer.renderNode(child, x, y)
+                end
+            end
+            
+        --_G[node.each] = nil
+    elseif node.tag == "button" then
         --print(x,y)
         love.graphics.setColor(s.backcolor)
         love.graphics.rectangle("fill", x, y, width, height, radius, radius)
