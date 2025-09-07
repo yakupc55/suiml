@@ -2,7 +2,7 @@ local renderer = require("renderer")
 local focus = require("focus")
 local router = require("router")
 local loader = require("loader")
-
+FOCUS_MODE=true
 function love.load()
     renderer.init()
     loader.loadAll()
@@ -26,12 +26,17 @@ function love.keypressed(key)
 
     -- opsiyonel focus navigation
     local focus = require("focus")
-    if key == "down" then focus.next() 
-    elseif key == "up" then focus.prev() 
-    elseif key == "return" or key == "a" then
+    if (key == "s" or key == "down") and FOCUS_MODE then focus.next() 
+    elseif (key == "w" or key == "up") and FOCUS_MODE then focus.prev() 
+    elseif key == "z" and FOCUS_MODE then
         local current = focus.getCurrent()
         if current and current.tag == "button" then
             if current.goto then router.goto(current.goto) end
+        end
+    elseif key=="return" then
+        FOCUS_MODE = (not FOCUS_MODE)
+        if not FOCUS_MODE then
+            focus.index = 0
         end
     elseif key == "escape" then
         love.event.quit()
