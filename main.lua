@@ -12,9 +12,11 @@ function love.draw()
     focus.reset()
     local currentArea = router.getCurrent()
     if currentArea then
-        renderer.renderNode(currentArea, 50, 50)
+        renderer.cursorX = 0
+        renderer.cursorY = 0
+        renderer.renderNode(currentArea)
     else
-        love.graphics.print("No area loaded!", 50, 50)
+        love.graphics.print("No area loaded!")
     end
 end
 

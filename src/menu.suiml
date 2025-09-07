@@ -7,43 +7,19 @@
 </load>
 
 <area name="main">
-  <p>Merhaba {{PLAYER_NAME}}!</p>
-  <button goto="game">Oyuna Başla</button>
+  <p style="color: red; fontsize:12;">Merhaba {{PLAYER_NAME}}!</p>
+  <button style="color: #b3ff02; fontsize:18" goto="game">Oyuna Başla</button>
+  <button style="color: #b3ff02; fontsize:18" goto="game">Oyuna Başla</button>
+  <button style="color: #b3ff02; fontsize:18" goto="game">Oyuna Başla</button>
+  <button style="color: #b3ff02; fontsize:18" goto="game">Oyuna Başla</button>
+  <br><br/>
+  <p style="color: red; fontsize:12;">Merhaba {{PLAYER_NAME}}!</p>
+  <p style="color: red; fontsize:12;">Merhaba {{PLAYER_NAME}}!</p>
 
-  <onInit>
-    print("Main area ilk kez açıldı!")
-  </onInit>
-
-  <onEnter>
-    print("Main area tekrar açıldı!")
-  </onEnter>
-
-  <onExit>
-    print("Main area kapatıldı!")
-  </onExit>
-
-  <keypress key="return">
-    print("Main area: Enter tuşuna basıldı")
-  </keypress>
 </area>
 
 <area name="game">
-  <p>Oyun başladı, bol şans {{PLAYER_NAME}}!</p>
+  <s>Oyun başladı, bol şans {{PLAYER_NAME}}!</s>
   <button goto="main">Ana Menü</button>
 
-  <onInit>
-    print("Game area ilk kez açıldı!")
-  </onInit>
-
-  <onEnter>
-    print("Game area tekrar açıldı!")
-  </onEnter>
-
-  <onExit>
-    print("Game area kapatıldı!")
-  </onExit>
-
-  <keypress key="return">
-    print("Game area: Enter tuşuna basıldı")
-  </keypress>
 </area>
