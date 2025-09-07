@@ -1,0 +1,49 @@
+<load>
+  <config key="PLAYER_NAME">Guest</config>
+
+  <keypress key="space">
+    print("Global: Space tuşuna basıldı")
+  </keypress>
+</load>
+
+<area name="main">
+  <p>Merhaba {{PLAYER_NAME}}!</p>
+  <button goto="game">Oyuna Başla</button>
+
+  <onInit>
+    print("Main area ilk kez açıldı!")
+  </onInit>
+
+  <onEnter>
+    print("Main area tekrar açıldı!")
+  </onEnter>
+
+  <onExit>
+    print("Main area kapatıldı!")
+  </onExit>
+
+  <keypress key="return">
+    print("Main area: Enter tuşuna basıldı")
+  </keypress>
+</area>
+
+<area name="game">
+  <p>Oyun başladı, bol şans {{PLAYER_NAME}}!</p>
+  <button goto="main">Ana Menü</button>
+
+  <onInit>
+    print("Game area ilk kez açıldı!")
+  </onInit>
+
+  <onEnter>
+    print("Game area tekrar açıldı!")
+  </onEnter>
+
+  <onExit>
+    print("Game area kapatıldı!")
+  </onExit>
+
+  <keypress key="return">
+    print("Game area: Enter tuşuna basıldı")
+  </keypress>
+</area>
