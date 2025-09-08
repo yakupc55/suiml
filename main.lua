@@ -3,17 +3,30 @@ local focus = require("focus")
 local router = require("router")
 local loader = require("loader")
 FOCUS_MODE=true
+
+function indexlist(count, start, step)
+    local t = {}
+    start = start or 1
+    step  = step or 1
+    for i = 0, count-1 do
+        t[#t+1] = start + i * step
+    end
+    return t
+end
 function love.load()
     renderer.init()
     loader.loadAll()
 end
-
+function resetValues()
+renderer.resetValues()
+end
 function love.draw()
+    -- print("---start---")
+    resetValues()
     focus.reset()
     local currentArea = router.getCurrent()
     if currentArea then
-        renderer.cursorX = 0
-        renderer.cursorY = 0
+        renderer.resetValues()
         renderer.renderNode(currentArea)
     else
         love.graphics.print("No area loaded!")

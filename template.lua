@@ -1,18 +1,15 @@
 -- template.lua
 local template = {}
 
-function template.render(text)
-    if not text then return "" end
-    -- {{VAR}} şeklindeki ifadeleri global değişkenlerle değiştir
-    return text:gsub("{{(.-)}}", function(var)
-        var = var:match("^%s*(.-)%s*$") -- trim
-        local value = _G[var]
-        if value ~= nil then
-            return tostring(value)
+function template.render(str)
+    return (str:gsub("{{(.-)}}", function(code)
+        local ok, result = pcall(load("return " .. code))
+        if ok and result ~= nil then
+            return tostring(result)
         else
-            return "{{"..var.."}}" -- bulunmazsa olduğu gibi bırak
+            return ""
         end
-    end)
+    end))
 end
 
 return template

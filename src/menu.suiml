@@ -1,13 +1,10 @@
 <load>
   <config key="PLAYER_NAME">player</config>
-  <script>
-    PLAYER_LIST = {"Alice","Bob","Charlie"}
-    IS_HARD_MODE = true
-  </script>
+  <config key="IS_HARD_MODE" type="boolean">true</config>
+  <config key="PLAYER_LIST" type="list">Alice,Bob,Charlie</config>
+  <config key="PLAYER_ENERGY" type="list">1,6,8</config>
   <keypress key="space">
-    print("işlem yapılıyor.")
     IS_HARD_MODE = (not IS_HARD_MODE)
-    print(IS_HARD_MODE)
   </keypress>
 </load>
 <area name="main">
@@ -20,9 +17,8 @@
   </else>
   </if>
 
-  <for each="player" in="PLAYER_LIST">
-    <p>sen {{player}}</p>
-
+  <for each="index" in="indexlist(#PLAYER_LIST)">
+    <p>sen {{PLAYER_LIST[index]}}</p>
   </for>
 
   <button style="color:#ffffff; background-color:#0000ff; font-size:20">Ana Menü</button>

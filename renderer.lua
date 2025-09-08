@@ -13,8 +13,14 @@ function renderer.init()
     love.graphics.setFont(font)
 end
 
+function renderer.resetValues()
+renderer.cursorX = 0
+renderer.cursorY = 0
+spacing = 0
+end
 
 function renderer.renderNode(node)
+    
     local s = style.parseStyle(node.attrs or {})
 
     -- renk ve backcolor
@@ -42,7 +48,7 @@ function renderer.renderNode(node)
     love.graphics.setFont(font)
     
     local x, y
-    --print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
+    -- print(node.tag,renderer.cursorX,renderer.cursorY,x,y,spacing)
     -- bazı özel node’lar alt satıra geçer
     if node.tag == "area" or node.tag == "load" then
         x = 0
@@ -71,7 +77,7 @@ function renderer.renderNode(node)
         spacing = height;
         --lineHeight = math.max(lineHeight, height)
     end
-    --print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
+    -- print(node.tag,renderer.cursorX,renderer.cursorY,x,y,spacing)
     -- node çizimi
     if node.tag == "if" then
             local ok = false
@@ -93,15 +99,24 @@ function renderer.renderNode(node)
                 end
             end
     elseif node.tag == "for" then
-            local tbl = _G[node.inVar] or {}
-            for _, item in ipairs(tbl) do
-                _G[node.each] = item
+        -- Lua kodunu çalıştır (örneğin "indexlist(#PLAYER_LIST)")
+        local ok, list = pcall(load("return " .. node.inVar))
+        if not ok then
+            print("For error:", list)
+            return y
+        end
+
+        if type(list) == "table" then
+            for _, val in ipairs(list) do
+                -- döngü değişkenini global ortama ekle
+                _G[node.each] = val
+
+                -- her child node'u render et
                 for _, child in ipairs(node.children) do
                     y = renderer.renderNode(child, x, y)
                 end
             end
-            
-        --_G[node.each] = nil
+        end
     elseif node.tag == "button" then
         --print(x,y)
         love.graphics.setColor(s.backcolor)
@@ -119,6 +134,7 @@ function renderer.renderNode(node)
         love.graphics.printf(template.render(node.text or ""), x, y + (height/2 - fontsize/2), width, "center")
 
     elseif node.tag == "p" then
+        -- print(x,y)
         love.graphics.setColor(s.color)
         love.graphics.print(template.render(node.text or ""), x, y)
 

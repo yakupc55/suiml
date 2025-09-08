@@ -27,20 +27,45 @@ local function processLoad(node)
             local key = child.attrs:match('key%s*=%s*"(.-)"')
             local typeAttr = child.attrs:match('type%s*=%s*"(.-)"') or "string"
             local value = child.text or ""
-
+            local ltype = child.attrs:match('listtype%s*=%s*"(.-)"') or "string"
             if key then
                 local val
                 if typeAttr == "boolean" then
-                    if value == "true" then val = true
-                    else val = false end
+                    val = (value == "true")
                 elseif typeAttr == "number" then
                     val = tonumber(value) or 0
-                else -- string
-                    val = value
+                elseif typeAttr == "list" then
+                    val = {}
+                    for item in value:gmatch("[^,]+") do
+                        item = item:match("^%s*(.-)%s*$") -- trim
+                        if ltype == "number" then
+                            item = tonumber(item) or 0
+                        elseif ltype == "boolean" then
+                            item = (item == "true")
+                        end
+                        table.insert(val, item)
+                    end
+                elseif typeAttr == "table" then
+                    val = {}
+                    for k,v in value:gmatch("([^,=]+)=([^,=]+)") do
+                        k = k:match("^%s*(.-)%s*$")
+                        v = v:match("^%s*(.-)%s*$")
+                        val[k] = v
+                    end
+                else
+                    val = value -- string (default)
                 end
 
                 _G[key] = val
-                print("Config yüklendi:", key, "=", tostring(val))
+                if type(val) == "table" then
+                    local t = {}
+                    for k,v in pairs(val) do
+                        table.insert(t, k.."="..v)
+                    end
+                    print("Config yüklendi:", key, "=", "{"..table.concat(t,", ").."}")
+                else
+                    print("Config yüklendi:", key, "=", tostring(val))
+                end
             end
         elseif child.tag == "keypress" then
             local key = child.attrs:match('key%s*=%s*"(.-)"')

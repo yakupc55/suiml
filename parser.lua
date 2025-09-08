@@ -28,23 +28,19 @@ function parser.parseHTML(html)
             node.text = inner
         end
         local att = parseAttributes(attrs)
-        local name = att.name
        
-        if name then node.name = name end
+        if att.name then node.name = att.name end
 
-        local gotoTarget = att.goto
-        if gotoTarget then node.goto = gotoTarget end
+        if gotoTarget then node.goto = att.goto end
 
         --if for sistemleri
         if tag == "if" then
-            local condition = att.condition
-            node.condition = condition 
+            node.condition = att.condition
         end
         if tag == "for" then
-        local each = att.each
-        local inVar = att["in"]
-        node.each = each;
-        node.inVar = inVar end
+            node.each = att.each
+            node.inVar =att["in"]
+        end
         table.insert(nodes, node)
     end
     return nodes
