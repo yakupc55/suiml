@@ -55,6 +55,8 @@ function renderer.renderNode(node)
         y = 0
         renderer.cursorX = 0
         renderer.cursorY = 0
+    --es geçilip kendi sisteminde ayarlananlar
+    elseif node.tag == "img" then
     elseif node.tag == "for" or node.tag == "if" or node.tag == "else" then
         renderer.cursorX = renderer.cursorX
         renderer.cursorY = renderer.cursorY
@@ -137,7 +139,30 @@ function renderer.renderNode(node)
         -- print(x,y)
         love.graphics.setColor(s.color)
         love.graphics.print(template.render(node.text or ""), x, y)
+    elseif node.tag == "img" then
+        print("reis")
+        if node.src then
+            -- cache mekanizması: aynı resmi tekrar tekrar load etmesin
+            if not node._image then
+                local ok, img = pcall(love.graphics.newImage, "src/"..node.src)
+                if ok then
+                    node._image = img
+                else
+                    print("Resim yüklenemedi:", node.src)
+                end
+            end
 
+            if node._image then
+                local w, h = node._image:getDimensions()
+                local drawW = node.width or w
+                local drawH = node.height or h
+
+                love.graphics.setColor(1,1,1,1)
+                love.graphics.draw(node._image, x, y, 0, drawW / w, drawH / h)
+                renderer.cursorX = renderer.cursorX + drawH
+                renderer.cursorY = renderer.cursorY + drawH
+            end
+        end
     elseif node.tag == "area" then
         for _, child in ipairs(node.children) do
             renderer.renderNode(child)

@@ -36,10 +36,12 @@ function parser.parseHTML(html)
         --if for sistemleri
         if tag == "if" then
             node.condition = att.condition
-        end
-        if tag == "for" then
+        elseif tag == "for" then
             node.each = att.each
             node.inVar =att["in"]
+        elseif tag == "img" then
+            print("dkkdf")
+            node.src = att.src
         end
         table.insert(nodes, node)
     end
