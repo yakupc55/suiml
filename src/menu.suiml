@@ -1,6 +1,5 @@
 <load>
   <config key="PLAYER_NAME">player</config>
-  
   <script>
     PLAYER_LIST = {"Alice","Bob","Charlie"}
     IS_HARD_MODE = true

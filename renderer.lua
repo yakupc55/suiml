@@ -42,7 +42,7 @@ function renderer.renderNode(node)
     love.graphics.setFont(font)
     
     local x, y
-    print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
+    --print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
     -- bazı özel node’lar alt satıra geçer
     if node.tag == "area" or node.tag == "load" then
         x = 0
@@ -71,7 +71,7 @@ function renderer.renderNode(node)
         spacing = height;
         --lineHeight = math.max(lineHeight, height)
     end
-    print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
+    --print(node.tag,renderer.cursorX,renderer.cursorY,x,y)
     -- node çizimi
     if node.tag == "if" then
             local ok = false

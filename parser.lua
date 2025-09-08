@@ -1,6 +1,17 @@
 -- parser.lua
 local parser = {}
 
+-- attrs stringini tabloya çevirir
+local function parseAttributes(attrStr)
+    local attrs = {}
+    if not attrStr then return attrs end
+    -- hem "..." hem '...' tırnakları desteklenir
+    for k,v in attrStr:gmatch("([%w-]+)%s*=%s*['\"](.-)['\"]") do
+        attrs[k] = v
+    end
+    return attrs
+end
+
 function parser.parseHTML(html)
     local nodes = {}
     for tag, attrs, inner in html:gmatch("<(%w+)(.-)>(.-)</%1>") do
@@ -16,21 +27,22 @@ function parser.parseHTML(html)
         else
             node.text = inner
         end
-
-        local name = attrs:match('name%s*=%s*"(.-)"')
+        local att = parseAttributes(attrs)
+        local name = att.name
+       
         if name then node.name = name end
 
-        local gotoTarget = attrs:match('goto%s*=%s*"(.-)"')
+        local gotoTarget = att.goto
         if gotoTarget then node.goto = gotoTarget end
 
         --if for sistemleri
         if tag == "if" then
-            local condition = attrs:match('condition%s*=%s*"(.-)"')
+            local condition = att.condition
             node.condition = condition 
         end
         if tag == "for" then
-        local each = attrs:match('each%s*=%s*"(.-)"')
-        local inVar = attrs:match('in%s*=%s*"(.-)"')
+        local each = att.each
+        local inVar = att["in"]
         node.each = each;
         node.inVar = inVar end
         table.insert(nodes, node)
