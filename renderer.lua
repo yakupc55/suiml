@@ -21,8 +21,12 @@ end
 
 function renderer.renderNode(node)
     
-    local s = style.parseStyle(node.attrs or {})
-
+    --local s = style.parseStyle(node.style or {})
+    local s = {}
+    
+    if node.all then
+        if node.all.style then s=style.parseStyle(node.all.style) end
+    end
     -- renk ve backcolor
     if s.color then
         local col = colors.get(s.color)
@@ -140,7 +144,7 @@ function renderer.renderNode(node)
         love.graphics.setColor(s.color)
         love.graphics.print(template.render(node.text or ""), x, y)
     elseif node.tag == "img" then
-        print("reis")
+        -- print("reis")
         if node.src then
             -- cache mekanizması: aynı resmi tekrar tekrar load etmesin
             if not node._image then

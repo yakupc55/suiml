@@ -14,6 +14,15 @@ end
 
 function parser.parseHTML(html)
     local nodes = {}
+    -- self-closing tags (<img ... />, <br/>, vs.)
+    for tag, attrs in html:gmatch("<(%w+)(.-)/>") do
+        local att = parseAttributes(attrs)
+        local node = { tag = tag, attrs = att, children = {}, text = "" }
+
+        -- özel alanlar
+        if att.src then node.src = att.src end
+        table.insert(nodes, node)
+    end
     for tag, attrs, inner in html:gmatch("<(%w+)(.-)>(.-)</%1>") do
         local node = {
             tag = tag,
@@ -43,7 +52,11 @@ function parser.parseHTML(html)
             print("dkkdf")
             node.src = att.src
         end
+        -- all attrs get
+        node.all = att
         table.insert(nodes, node)
+        -- print(att.style)
+        
     end
     return nodes
 end
