@@ -2,6 +2,7 @@ local focus = require("focus")
 local template = require("template")
 local style = require("style")
 local colors = require("colors")
+local imgtag = require("tags.imgtag")
 local renderer = {}
 local font
 renderer.cursorX = 0
@@ -144,30 +145,32 @@ function renderer.renderNode(node)
         love.graphics.setColor(s.color)
         love.graphics.print(template.render(node.text or ""), x, y)
     elseif node.tag == "img" then
-        -- print("reis")
-        if node.att.src then node.src = node.att.src end
-        if node.src then
-            -- cache mekanizması: aynı resmi tekrar tekrar load etmesin
-            if not node._image then
-                local ok, img = pcall(love.graphics.newImage, "src/"..node.src)
-                if ok then
-                    node._image = img
-                else
-                    print("Resim yüklenemedi:", node.src)
-                end
-            end
+        imgtag.render(node,renderer)
+        -- -- print("reis")
+        -- if node.att.src then node.src = node.att.src end
+        -- if node.src then
+        --     -- cache mekanizması: aynı resmi tekrar tekrar load etmesin
+        --     if not node._image then
+        --         local ok, img = pcall(love.graphics.newImage, "src/"..node.src)
+        --         if ok then
+        --             node._image = img
+        --         else
+        --             print("Resim yüklenemedi:", node.src)
+        --         end
+        --     end
 
-            if node._image then
-                local w, h = node._image:getDimensions()
-                local drawW = node.width or w
-                local drawH = node.height or h
+        --     if node._image then
+        --         local w, h = node._image:getDimensions()
+        --         local drawW = node.width or w
+        --         local drawH = node.height or h
 
-                love.graphics.setColor(1,1,1,1)
-                love.graphics.draw(node._image, x, y, 0, drawW / w, drawH / h)
-                renderer.cursorX = renderer.cursorX + drawH
-                renderer.cursorY = renderer.cursorY + drawH
-            end
-        end
+        --         love.graphics.setColor(1,1,1,1)
+        --         love.graphics.draw(node._image, x, y, 0, drawW / w, drawH / h)
+        --         renderer.cursorX = renderer.cursorX + drawH
+        --         renderer.cursorY = renderer.cursorY + drawH
+        --     end
+        -- end
+
     elseif node.tag == "area" then
         for _, child in ipairs(node.children) do
             renderer.renderNode(child)
