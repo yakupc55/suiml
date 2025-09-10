@@ -20,7 +20,9 @@ function parser.parseHTML(html)
         local node = { tag = tag, attrs = att, children = {}, text = "" }
 
         -- özel alanlar
-        if att.src then node.src = att.src end
+
+        -- all attrs get
+        node.att = att
         table.insert(nodes, node)
     end
     for tag, attrs, inner in html:gmatch("<(%w+)(.-)>(.-)</%1>") do
@@ -53,7 +55,7 @@ function parser.parseHTML(html)
             node.src = att.src
         end
         -- all attrs get
-        node.all = att
+        node.att = att
         table.insert(nodes, node)
         -- print(att.style)
         
