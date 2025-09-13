@@ -131,36 +131,16 @@ function loader.loadAll()
         for _,node in ipairs(elements) do
             -- print(node.name)
             if node.name =="load" then
-                print("sistem1")
                 processLoad(node)
             elseif node.name =="area" then
-                print("sistem2")
                 processArea(node)
-                require("router").register(node)
+                router.register(node)
             end
-            -- local subs = node(subselectorstring)
-            -- for _,sub in ipairs(subs) do
-            --     print("", sub.name)
-            -- end
         end
     end
-    -- for _, file in ipairs(files) do
-    --     local content = love.filesystem.read(file)
-    --     local dom = parser.parseHTML(content)
-    --     for _, node in ipairs(dom) do
-    --         if node.tag == "load" then
-    --             processLoad(node)
-    --         elseif node.tag == "area" and node.name then
-    --             processArea(node)
-    --             require("router").register(node)
-    --         end
-    --     end
-    -- end
-
-    -- local router = require("router")
-    -- if router.areas["main"] then
-    --     router.goto("main")
-    -- end
+    if router.areas["main"] then
+        router.goto("main")
+    end
 end
 
 return loader
