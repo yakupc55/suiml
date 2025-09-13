@@ -8,26 +8,27 @@ router.current = nil
 function router.register(areaNode)
     -- areaNode içinde <onInit>, <onEnter>, <onExit> node'larını ayıkla
     areaNode._inited = false
-    for _, child in ipairs(areaNode.children or {}) do
-        if child.tag == "onInit" then
+    for _, child in ipairs(areaNode.nodes or {}) do
+        if child.name == "onInit" then
             areaNode.onInit = function()
-                local f, err = load(child.text or "")
+                local f, err = load(child:getcontent() or "")
                 if f then f() end
             end
-        elseif child.tag == "onEnter" then
+        elseif child.name == "onEnter" then
             areaNode.onEnter = function()
-                local f, err = load(child.text or "")
+                local f, err = load(child:getcontent() or "")
                 if f then f() end
             end
-        elseif child.tag == "onExit" then
+        elseif child.name == "onExit" then
             areaNode.onExit = function()
-                local f, err = load(child.text or "")
+                local f, err = load(child:getcontent() or "")
                 if f then f() end
             end
         end
     end
 
-    router.areas[areaNode.name] = areaNode
+    router.areas[areaNode.attributes["name"]] = areaNode
+    print(areaNode.attributes["name"])
 end
 
 -- area değişimi
