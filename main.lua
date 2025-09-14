@@ -27,7 +27,7 @@ function love.draw()
     local currentArea = router.getCurrent()
     if currentArea then
         renderer.resetValues()
-        renderer.renderNode(currentArea)
+        renderer.renderArea(currentArea)
     else
         love.graphics.print("No area loaded!")
     end

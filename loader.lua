@@ -100,22 +100,22 @@ local function processLoad(node)
     end
 end
 
-local function processArea(areaNode)
+local function processPage(pageNode)
     -- Area eventleri
-    areaNode._inited = false
-    for _, child in ipairs(areaNode.nodes or {}) do
+    pageNode._inited = false
+    for _, child in ipairs(pageNode.nodes or {}) do
         if child.name == "onInit" and child:getcontent() then
-            areaNode.onInit = function() load(child:getcontent())() end
+            pageNode.onInit = function() load(child:getcontent())() end
         elseif child.name == "onEnter" and child:getcontent() then
-            areaNode.onEnter = function() load(child:getcontent())() end
+            pageNode.onEnter = function() load(child:getcontent())() end
         elseif child.name == "onExit" and child:getcontent() then
-            areaNode.onExit = function() load(child:getcontent())() end
+            pageNode.onExit = function() load(child:getcontent())() end
         elseif child.name == "keypress" and child:getcontent() then
-            areaNode.keypress = areaNode.keypress or {}
+            pageNode.keypress = pageNode.keypress or {}
             local key = child.attributes["key"]
             print(key)
             if key then
-                areaNode.keypress[key] = child:getcontent()
+                pageNode.keypress[key] = child:getcontent()
             end
         end
     end
@@ -132,8 +132,8 @@ function loader.loadAll()
             -- print(node.name)
             if node.name =="load" then
                 processLoad(node)
-            elseif node.name =="area" then
-                processArea(node)
+            elseif node.name =="page" then
+                processPage(node)
                 router.register(node)
             end
         end

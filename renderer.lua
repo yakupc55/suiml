@@ -19,14 +19,21 @@ renderer.cursorX = 0
 renderer.cursorY = 0
 spacing = 0
 end
-
+function renderer.renderArea(area)
+    for _, node in ipairs(area.nodes or {}) do
+        print("node name",node.name)
+        renderer.renderNode(node)
+    end
+end
 function renderer.renderNode(node)
+
     
     --local s = style.parseStyle(node.style or {})
     local s = {}
     
-    if node.att then
-        if node.att.style then s=style.parseStyle(node.att.style) end
+    if node.attributes["style"] then
+        print("test1")
+        s=style.parseStyle(node.attributes["style"])
     end
     -- renk ve backcolor
     if s.color then

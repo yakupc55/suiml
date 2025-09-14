@@ -7,8 +7,8 @@
     IS_HARD_MODE = (not IS_HARD_MODE)
   </keypress>
 </load>
-<area name="main">
-  <img src="chicken.png"></img>
+<page name="main">
+  <img src="chicken.png" />
   <p style="color:#ff0000; font-size:24">Merhaba {{PLAYER_NAME}}</p>
 
   <if condition="IS_HARD_MODE">
@@ -24,4 +24,4 @@
 
   <button style="color:#ffffff; background-color:#0000ff; font-size:20">Ana Menü</button>
 
-</area>
+</page>
