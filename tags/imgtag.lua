@@ -1,7 +1,7 @@
 local imgtag = {}
 
 function imgtag.render(node,renderer)
-    if node.att.src then node.src = node.att.src end
+    if node.attributes["src"] then node.src = node.attributes["src"] end
     if node.src then
         -- cache mekanizması: aynı resmi tekrar tekrar load etmesin
         if not node._image then

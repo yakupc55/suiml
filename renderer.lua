@@ -21,7 +21,7 @@ spacing = 0
 end
 function renderer.renderArea(area)
     for _, node in ipairs(area.nodes or {}) do
-        print("node name",node.name)
+        -- print("node name",node.name)
         renderer.renderNode(node)
     end
 end
@@ -32,7 +32,6 @@ function renderer.renderNode(node)
     local s = {}
     
     if node.attributes["style"] then
-        print("test1")
         s=style.parseStyle(node.attributes["style"])
     end
     -- renk ve backcolor
@@ -60,19 +59,19 @@ function renderer.renderNode(node)
     love.graphics.setFont(font)
     
     local x, y
-    -- print(node.tag,renderer.cursorX,renderer.cursorY,x,y,spacing)
+    -- print(node.name,renderer.cursorX,renderer.cursorY,x,y,spacing)
     -- bazı özel node’lar alt satıra geçer
-    if node.tag == "area" or node.tag == "load" then
+    if node.name == "page" or node.name == "load" then
         x = 0
         y = 0
         renderer.cursorX = 0
         renderer.cursorY = 0
     --es geçilip kendi sisteminde ayarlananlar
-    elseif node.tag == "img" then
-    elseif node.tag == "for" or node.tag == "if" or node.tag == "else" then
+    elseif node.name == "img" then
+    elseif node.name == "for" or node.name == "if" or node.name == "else" then
         renderer.cursorX = renderer.cursorX
         renderer.cursorY = renderer.cursorY
-    elseif node.tag == "p" or node.tag == "br" then
+    elseif node.name == "p" or node.name == "br" then
         -- alt satıra geç ve node boyutunu dikkate al
         renderer.cursorY = renderer.cursorY + spacing;
         renderer.cursorX = 0
@@ -91,30 +90,30 @@ function renderer.renderNode(node)
         spacing = height;
         --lineHeight = math.max(lineHeight, height)
     end
-    -- print(node.tag,renderer.cursorX,renderer.cursorY,x,y,spacing)
+    -- print(node.name,renderer.cursorX,renderer.cursorY,x,y,spacing)
     -- node çizimi
-    if node.tag == "if" then
+    if node.name == "if" then
             local ok = false
-            if node.condition then
-                ok = _G[node.condition] == true
+            if node.attributes["condition"] then
+                ok = _G[node.attributes["condition"]] == true
             end
             if ok then
-                for _, child in ipairs(node.children) do
+                for _, child in ipairs(node.nodes) do
                     y = renderer.renderNode(child, x, y)
                 end
             else
                 -- check for else
-                for _, child in ipairs(node.children) do
-                    if child.tag == "else" then
-                        for _, c in ipairs(child.children) do
+                for _, child in ipairs(node.nodes) do
+                    if child.name == "else" then
+                        for _, c in ipairs(child.nodes) do
                             y = renderer.renderNode(c, x, y)
                         end
                     end
                 end
             end
-    elseif node.tag == "for" then
+    elseif node.name == "for" then
         -- Lua kodunu çalıştır (örneğin "indexlist(#PLAYER_LIST)")
-        local ok, list = pcall(load("return " .. node.inVar))
+        local ok, list = pcall(load("return " .. node.attributes["in"]))
         if not ok then
             print("For error:", list)
             return y
@@ -123,15 +122,15 @@ function renderer.renderNode(node)
         if type(list) == "table" then
             for _, val in ipairs(list) do
                 -- döngü değişkenini global ortama ekle
-                _G[node.each] = val
+                _G[node.attributes["each"]] = val
 
                 -- her child node'u render et
-                for _, child in ipairs(node.children) do
+                for _, child in ipairs(node.nodes) do
                     y = renderer.renderNode(child, x, y)
                 end
             end
         end
-    elseif node.tag == "button" then
+    elseif node.name == "button" then
         --print(x,y)
         love.graphics.setColor(s.backcolor)
         love.graphics.rectangle("fill", x, y, width, height, radius, radius)
@@ -145,43 +144,21 @@ function renderer.renderNode(node)
         end
 
         love.graphics.setColor(s.color)
-        love.graphics.printf(template.render(node.text or ""), x, y + (height/2 - fontsize/2), width, "center")
+        love.graphics.printf(template.render(node:getcontent() or ""), x, y + (height/2 - fontsize/2), width, "center")
 
-    elseif node.tag == "p" then
+    elseif node.name == "p" then
         -- print(x,y)
         love.graphics.setColor(s.color)
-        love.graphics.print(template.render(node.text or ""), x, y)
-    elseif node.tag == "img" then
+        love.graphics.print(template.render(node:getcontent() or ""), x, y)
+    elseif node.name == "img" then
         imgtag.render(node,renderer)
-        -- -- print("reis")
-        -- if node.att.src then node.src = node.att.src end
-        -- if node.src then
-        --     -- cache mekanizması: aynı resmi tekrar tekrar load etmesin
-        --     if not node._image then
-        --         local ok, img = pcall(love.graphics.newImage, "src/"..node.src)
-        --         if ok then
-        --             node._image = img
-        --         else
-        --             print("Resim yüklenemedi:", node.src)
-        --         end
-        --     end
-
-        --     if node._image then
-        --         local w, h = node._image:getDimensions()
-        --         local drawW = node.width or w
-        --         local drawH = node.height or h
-
-        --         love.graphics.setColor(1,1,1,1)
-        --         love.graphics.draw(node._image, x, y, 0, drawW / w, drawH / h)
-        --         renderer.cursorX = renderer.cursorX + drawH
-        --         renderer.cursorY = renderer.cursorY + drawH
-        --     end
-        -- end
-
-    elseif node.tag == "area" then
-        for _, child in ipairs(node.children) do
-            renderer.renderNode(child)
-        end
+    end
+    if node.name =="if" or node.name =="else" or node.name =="for" then
+        
+    else
+    for _, child in ipairs(node.nodes) do
+                renderer.renderNode(child)
+            end
     end
 
     return y
