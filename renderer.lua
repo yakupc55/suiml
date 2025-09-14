@@ -4,9 +4,10 @@ local styleParse = require("style")
 local colors = require("colors")
 local imgtag = require("tags.imgtag")
 local buttontag = require("tags.buttontag")
+local ptag = require("tags.ptag")
 local renderer = {}
 local font
-local context = {}
+renderer.context = {}
 renderer.cursorX = 0
 renderer.cursorY = 0
 renderer.spacing = 0
@@ -128,7 +129,7 @@ function renderer.renderNode(node)
                 -- döngü değişkenini global ortama ekle
                 --_G[node.attributes["each"]] = val
                 
-                context[node.attributes["each"]] = val
+                renderer.context[node.attributes["each"]] = val
                 -- her child node'u render et
                 for _, child in ipairs(node.nodes) do
                     y = renderer.renderNode(child, x, y)
@@ -138,6 +139,7 @@ function renderer.renderNode(node)
     elseif node.name == "button" then
         buttontag.render(node,style,renderer)
     elseif node.name == "p" then
+        ptag.render(node,style,renderer)
         -- -- print(x,y)
         -- love.graphics.setColor(s.color)
         -- love.graphics.print(template.render(context,node:getcontent() or ""), x, y)

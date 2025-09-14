@@ -31,6 +31,7 @@ function love.draw()
     else
         love.graphics.print("No area loaded!")
     end
+    love.timer.sleep(0.02)
 end
 
 function love.keypressed(key)
