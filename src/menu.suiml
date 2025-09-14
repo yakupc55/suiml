@@ -9,11 +9,14 @@
 </load>
 <page name="main">
   <img src="chicken.png" />
+  <img src="chicken.png" />
   <p style="color:#ff0000; font-size:24">Merhaba {{PLAYER_NAME}}</p>
 
   <if condition="IS_HARD_MODE">
     <p>Zor mod aktif!</p>
-  <else>
+    <l>Zor mod aktif!</l>
+    <img src="chicken.png" />
+    <else>
     <p>Kolay mod</p>
   </else>
   </if>
@@ -23,5 +26,6 @@
   </for>
 
   <button style="color:#ffffff; background-color:#0000ff; font-size:20">Ana Menü</button>
+  <button style="color:#ffffff; background-color:#0000ff; font-size:20">Ana Menü2</button>
 
 </page>

@@ -1,6 +1,7 @@
 local imgtag = {}
 
 function imgtag.render(node,renderer)
+    --draw kısmı
     if node.attributes["src"] then node.src = node.attributes["src"] end
     if node.src then
         -- cache mekanizması: aynı resmi tekrar tekrar load etmesin
@@ -23,6 +24,7 @@ function imgtag.render(node,renderer)
             love.graphics.draw(node._image, x, y, 0, drawW / w, drawH / h)
             renderer.cursorX = renderer.cursorX + drawW
             renderer.spacing = math.max(renderer.spacing,drawH);
+            print("spacing :",renderer.spacing)
         end
     end
 end
