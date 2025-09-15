@@ -9,6 +9,8 @@ local ltag = require("tags.ltag")
 local backtag = require("tags.backtag")
 local iftag = require("tags.iftag")
 local fortag = require("tags.fortag")
+local brtag = require("tags.brtag")
+local spacetag = require("tags.spacetag")
 local renderer = {}
 local font
 renderer.context = {}
@@ -74,6 +76,10 @@ function renderTag(node)
         ltag.render(node,renderer)
     elseif node.name == "back" then
         backtag.render(node,renderer)
+    elseif node.name == "br" then
+        brtag.render(node,renderer)
+    elseif node.name == "space" then
+        spacetag.render(node,renderer)
     elseif node.name == "img" then
         imgtag.render(node,renderer)
     end

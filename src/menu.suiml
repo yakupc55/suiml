@@ -11,6 +11,7 @@
   <back style="backcolor:#ffffff;" />
   <img src="chicken.png" />
   <img src="chicken.png" />
+  <space width=90  height=90 />
   <p style="color:#ff0000; fontsize:24">Merhaba {{PLAYER_NAME}}</p>
 
   <if condition="IS_HARD_MODE">
@@ -27,6 +28,7 @@
   </for>
 
   <button style="color:#000000; backcolor:#96ffb0; focuscolor:#0000ff; fontsize:20">Ana Menü</button>
+  <br height=100 />
   <button style="color:#000000; backcolor:#96ffb0; fontsize:20">Ana Menü2</button>
 
 </page>

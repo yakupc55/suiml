@@ -7,7 +7,6 @@ function ltag.render(node,renderer)
 
     local fontsize   = tonumber(node.style.fontsize) or 16
     local height     = tonumber(node.style.height) or (fontsize+4)
-    local radius     = tonumber(node.style.radius) or 5
 
     local text = template.render(renderer.context,node:getcontent() or "")
     local spaceValue = 0
