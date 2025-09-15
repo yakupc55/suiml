@@ -9,7 +9,7 @@ function indexlist(count, start, step)
     start = start or 1
     step  = step or 1
     for i = 0, count-1 do
-        t[#t+1] = start + i * step
+        t[#t+1] = start + i * step 
     end
     return t
 end

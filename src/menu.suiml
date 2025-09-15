@@ -8,6 +8,7 @@
   </keypress>
 </load>
 <page name="main">
+  <back "background-color:#ffffff; />
   <img src="chicken.png" />
   <img src="chicken.png" />
   <p style="color:#ff0000; font-size:24">Merhaba {{PLAYER_NAME}}</p>

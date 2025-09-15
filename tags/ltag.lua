@@ -1,32 +1,27 @@
-local imgtag = {}
+local ltag = {}
+local focus = require("focus")
+local template = require("template")
+function ltag.render(node,renderer)
+    x = renderer.cursorX
+    y = renderer.cursorY
 
-function imgtag.render(node,renderer)
-    --draw kısmı
-    if node.attributes["src"] then node.src = node.attributes["src"] end
-    if node.src then
-        -- cache mekanizması: aynı resmi tekrar tekrar load etmesin
-        if not node._image then
-            local ok, img = pcall(love.graphics.newImage, "src/"..node.src)
-            if ok then
-                node._image = img
-            else
-                print("Resim yüklenemedi:", node.src)
-            end
-        end
+    local fontsize   = tonumber(node.style.fontsize) or 16
+    local height     = tonumber(node.style.height) or (fontsize+4)
+    local radius     = tonumber(node.style.radius) or 5
 
-        if node._image then
-            local w, h = node._image:getDimensions()
-            local drawW = node.width or w
-            local drawH = node.height or h
-            local x = renderer.cursorX
-            local y = renderer.cursorY
-            love.graphics.setColor(1,1,1,1)
-            love.graphics.draw(node._image, x, y, 0, drawW / w, drawH / h)
-            renderer.cursorX = renderer.cursorX + drawW
-            renderer.spacing = math.max(renderer.spacing,drawH);
-            print("spacing :",renderer.spacing)
-        end
-    end
+    local text = template.render(renderer.context,node:getcontent() or "")
+    local spaceValue = 5
+    local width = tonumber(node.style.width) or love.graphics.getFont():getWidth(text)+(spaceValue*2)
+    font = love.graphics.newFont(fontsize)
+    love.graphics.setFont(font)
+
+    love.graphics.setColor(node.style.color)
+    love.graphics.printf(text, x, y + (height/2 - fontsize/2), width, "center")
+
+
+    --konum güncelleme
+    renderer.cursorX = renderer.cursorX + width
+    renderer.spacing = math.max(renderer.spacing,height);
 end
 
-return imgtag
+return ltag

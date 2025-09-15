@@ -15,5 +15,6 @@ return {
 	param = true,
 	source = true,
 	track = true,
-	wbr = true
+	wbr = true,
+	back = true
 }

@@ -5,6 +5,8 @@ local colors = require("colors")
 local imgtag = require("tags.imgtag")
 local buttontag = require("tags.buttontag")
 local ptag = require("tags.ptag")
+local ltag = require("tags.ltag")
+local backtag = require("tags.backtag")
 local renderer = {}
 local font
 renderer.context = {}
@@ -33,24 +35,24 @@ function renderer.renderNode(node)
 
     
     --local s = style.parseStyle(node.style or {})
-    local style = {}
+    node.style = {}
     
     if node.attributes["style"] then
-        style=styleParse.parseStyle(node.attributes["style"])
+        node.style=styleParse.parseStyle(node.attributes["style"])
     end
     -- renk ve backcolor
-    if style.color then
-        local col = colors.get(style.color)
-        style.color = {col[1], col[2], col[3], 1}
+    if node.style.color then
+        local col = colors.get(node.style.color)
+        node.style.color = {col[1], col[2], col[3], 1}
     else
-        style.color = {1,1,1,1}
+        node.style.color = {1,1,1,1}
     end
 
-    if style.backcolor then
-        local bg = colors.get(style.backcolor)
-        style.backcolor = {bg[1], bg[2], bg[3], 1}
+    if node.style.backcolor then
+        local bg = colors.get(node.style.backcolor)
+        node.style.backcolor = {bg[1], bg[2], bg[3], 1}
     else
-        style.backcolor = {0,0,0,0}
+        node.style.backcolor = {0,0,0,0}
     end
 
     -- -- boyut ve font
@@ -137,15 +139,13 @@ function renderer.renderNode(node)
             end
         end
     elseif node.name == "button" then
-        buttontag.render(node,style,renderer)
+        buttontag.render(node,renderer)
     elseif node.name == "p" then
-        ptag.render(node,style,renderer)
-        -- -- print(x,y)
-        -- love.graphics.setColor(s.color)
-        -- love.graphics.print(template.render(context,node:getcontent() or ""), x, y)
+        ptag.render(node,renderer)
     elseif node.name == "l" then
-        -- love.graphics.setColor(s.color)
-        -- love.graphics.print(template.render(context,node:getcontent() or ""), x, y)
+        ltag.render(node,renderer)
+    elseif node.name == "back" then
+        backtag.render(node,renderer)
     elseif node.name == "img" then
         imgtag.render(node,renderer)
     end

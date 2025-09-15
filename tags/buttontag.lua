@@ -1,17 +1,17 @@
 local buttontag = {}
 local focus = require("focus")
 local template = require("template")
-function buttontag.render(node,style,renderer)
+function buttontag.render(node,renderer)
     x = renderer.cursorX
     y = renderer.cursorY
 
-    local fontsize   = tonumber(style.fontsize) or 16
-    local height     = tonumber(style.height) or (fontsize+4)
-    local radius     = tonumber(style.radius) or 5
+    local fontsize   = tonumber(node.style.fontsize) or 16
+    local height     = tonumber(node.style.height) or (fontsize+4)
+    local radius     = tonumber(node.style.radius) or 5
 
     local text = template.render(renderer.context,node:getcontent() or "")
     local spaceValue = 5
-    local width = tonumber(style.width) or love.graphics.getFont():getWidth(text)+(spaceValue*2)
+    local width = tonumber(node.style.width) or love.graphics.getFont():getWidth(text)+(spaceValue*2)
     font = love.graphics.newFont(fontsize)
     love.graphics.setFont(font)
     
@@ -23,11 +23,11 @@ function buttontag.render(node,style,renderer)
         love.graphics.setColor(0.2,0.2,1,0.2)
         love.graphics.rectangle("fill", x, y, width, height, radius, radius)
     else
-        love.graphics.setColor(style.backcolor)
+        love.graphics.setColor(node.style.backcolor)
         love.graphics.rectangle("fill", x, y, width, height, radius, radius)
     end
 
-    love.graphics.setColor(style.color)
+    love.graphics.setColor(node.style.color)
     love.graphics.printf(text, x, y + (height/2 - fontsize/2), width, "center")
 
 
