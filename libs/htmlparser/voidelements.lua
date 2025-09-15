@@ -16,5 +16,6 @@ return {
 	source = true,
 	track = true,
 	wbr = true,
-	back = true
+	back = true,
+	space = true
 }
