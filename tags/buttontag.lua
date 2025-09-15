@@ -11,16 +11,16 @@ function buttontag.render(node,renderer)
 
     local text = template.render(renderer.context,node:getcontent() or "")
     local spaceValue = 5
-    local width = tonumber(node.style.width) or love.graphics.getFont():getWidth(text)+(spaceValue*2)
-    font = love.graphics.newFont(fontsize)
+    local font = love.graphics.newFont(fontsize)
     love.graphics.setFont(font)
+    local width = tonumber(node.style.width) or love.graphics.getFont():getWidth(text)+(spaceValue*2)
     
     
     node.focusable = true
     focus.register(node)
     local current = focus.getCurrent()
     if current == node then
-        love.graphics.setColor(0.2,0.2,1,0.2)
+        love.graphics.setColor(0,0,1,0.5)
         love.graphics.rectangle("fill", x, y, width, height, radius, radius)
     else
         love.graphics.setColor(node.style.backcolor)

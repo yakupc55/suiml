@@ -8,10 +8,10 @@
   </keypress>
 </load>
 <page name="main">
-  <back style="color:#ffffff; background-color:#0000ff; font-size:20" />
+  <back style="backcolor:#ffffff;" />
   <img src="chicken.png" />
   <img src="chicken.png" />
-  <p style="color:#ff0000; font-size:24">Merhaba {{PLAYER_NAME}}</p>
+  <p style="color:#ff0000; fontsize:24">Merhaba {{PLAYER_NAME}}</p>
 
   <if condition="IS_HARD_MODE">
     <p>Zor mod aktif!</p>
@@ -26,7 +26,7 @@
     <p>sen {{PLAYER_LIST[index]}} {{PLAYER_ENERGY[index]}}</p>
   </for>
 
-  <button style="color:#ffffff; background-color:#0000ff; font-size:20">Ana Menü</button>
-  <button style="color:#ffffff; background-color:#0000ff; font-size:20">Ana Menü2</button>
+  <button style="color:#000000; backcolor:#96ffb0; focuscolor:#0000ff; fontsize:20">Ana Menü</button>
+  <button style="color:#000000; backcolor:#96ffb0; fontsize:20">Ana Menü2</button>
 
 </page>

@@ -6,9 +6,9 @@ function ltag.render(node,renderer)
     print("st len: ",#node.style)
     local w, h = love.graphics.getDimensions()
     -- print("dimensions : w: ",w," h:",h)
-    if node.style["backgroundColor"] then
+    if node.style.backcolor then
         print("background is goed")
-        love.graphics.setColor(node.style["backgroundColor"])
+        love.graphics.setColor(node.style.backcolor)
         love.graphics.rectangle("fill", 0, 0, w, h)
     end
 end

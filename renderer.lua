@@ -38,14 +38,17 @@ function renderer.renderNode(node)
     node.style = {}
     
     if node.attributes["style"] then
+        -- print("node: ",node.name)
         node.style=styleParse.parseStyle(node.attributes["style"])
+        -- print("len : ",#node.style)
     end
     -- renk ve backcolor
     if node.style.color then
+       print("node: ",node.name)
         local col = colors.get(node.style.color)
         node.style.color = {col[1], col[2], col[3], 1}
     else
-        node.style.color = {1,1,1,1}
+        node.style.color = {0,0,0,1}
     end
 
     if node.style.backcolor then
