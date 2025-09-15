@@ -18,8 +18,9 @@ function ptag.render(node,renderer)
     love.graphics.printf(text, x, y , width, "center")
 
     --konum güncelleme
-    renderer.spacing = height;
+    renderer.spacing = math.max(renderer.spacing,height);
     renderer.cursorY = renderer.cursorY + renderer.spacing;
+    renderer.spacing = 0
     renderer.cursorX = 0
 
 end

@@ -1,0 +1,65 @@
+<load>
+  <!-- Oyuncu bilgileri -->
+  <config key="PLAYER_NAME">player</config>
+  <config key="PLAYER_HP" type="number">10</config>
+  <config key="ENEMY_HP" type="number">5</config>
+  <config key="IS_BATTLE" type="boolean">false</config>
+</load>
+
+<!-- Ana Menü -->
+<page name="main">
+  <back style="backcolor:#ffffff;" />
+  <p style="fontsize:28; color:#000000">Hoşgeldin {{PLAYER_NAME}}</p>
+  <p style="fontsize:28; color:#000000">Hoşgeldin {{PLAYER_NAME}}</p>
+  <button style="fontsize:20; backcolor:#aaffaa" onclick="PLAYER_HP = PLAYER_HP+1">Savaşa Başla</button>
+  <button style="fontsize:20; backcolor:#aaffaa" goto="battle">Savaşa Başla</button>
+</page>
+
+<!-- Savaş Sahnesi -->
+<page name="battle">
+  <back style="backcolor:#ffffff;" />
+  <onEnter>
+    IS_BATTLE = true
+    print("Savaş başladı!")
+  </onEnter>
+  <onExit>
+    IS_BATTLE = false
+    print("Savaştan çıkıldı.")
+  </onExit>
+
+  <p style="fontsize:22">Düşman karşında!</p>
+  <p>Senin HP: {{PLAYER_HP}}</p>
+  <p>Düşman HP: {{ENEMY_HP}}</p>
+
+  <keypress key="space">
+    if ENEMY_HP > 0 then
+      ENEMY_HP = ENEMY_HP - 1
+      print("Saldırdın! ENEMY_HP=", ENEMY_HP)
+    end
+    if ENEMY_HP <= 0 then
+      router.goto("victory")
+    end
+  </keypress>
+
+  <button style="fontsize:20; backcolor:#dddddd" onclick="router.goto('main_menu')">
+    Kaç
+  </button>
+</page>
+
+<!-- Kazanma -->
+<page name="victory">
+  <p style="fontsize:28; color:#00aa00">Tebrikler {{PLAYER_NAME}}!</p>
+  <p>Düşmanı yendin 🎉</p>
+  <button style="fontsize:20; backcolor:#aaffaa" onclick="router.goto('main_menu')">
+    Ana Menüye Dön
+  </button>
+</page>
+
+<!-- Kaybetme -->
+<page name="defeat">
+  <p style="fontsize:28; color:#aa0000">Kaybettin {{PLAYER_NAME}}</p>
+  <p>Düşman seni yendi...</p>
+  <button style="fontsize:20; backcolor:#dddddd" onclick="router.goto('main_menu')">
+    Ana Menüye Dön
+  </button>
+</page>

@@ -1,65 +1,32 @@
 <load>
-  <!-- Oyuncu bilgileri -->
   <config key="PLAYER_NAME">player</config>
-  <config key="PLAYER_HP" type="number">10</config>
-  <config key="ENEMY_HP" type="number">5</config>
-  <config key="IS_BATTLE" type="boolean">false</config>
+  <config key="IS_HARD_MODE" type="boolean">true</config>
+  <config key="PLAYER_LIST" type="list">Alice,Bob,Charlie</config>
+  <config key="PLAYER_ENERGY" type="list">1,6,8</config>
+  <keypress key="space">
+    IS_HARD_MODE = (not IS_HARD_MODE)
+  </keypress>
 </load>
-
-<!-- Ana Menü -->
 <page name="main">
   <back style="backcolor:#ffffff;" />
-  <p style="fontsize:28; color:#000000">Hoşgeldin {{PLAYER_NAME}}</p>
-  <p style="fontsize:28; color:#000000">Hoşgeldin {{PLAYER_NAME}}</p>
-  <button style="fontsize:20; backcolor:#aaffaa" onclick="PLAYER_HP = PLAYER_HP+1">Savaşa Başla</button>
-  <button style="fontsize:20; backcolor:#aaffaa" goto="battle">Savaşa Başla</button>
-</page>
+  <img src="chicken.png" />
+  <img src="chicken.png" />
+  <p style="color:#ff0000; fontsize:24">Merhaba {{PLAYER_NAME}}</p>
 
-<!-- Savaş Sahnesi -->
-<page name="battle">
-  <back style="backcolor:#ffffff;" />
-  <onEnter>
-    IS_BATTLE = true
-    print("Savaş başladı!")
-  </onEnter>
-  <onExit>
-    IS_BATTLE = false
-    print("Savaştan çıkıldı.")
-  </onExit>
+  <if condition="IS_HARD_MODE">
+    <p>Zor mod aktif!</p>
+    <l>Zor mod aktif!</l>
+    <img src="chicken.png" />
+    <else>
+    <p>Kolay mod</p>
+  </else>
+  </if>
 
-  <p style="fontsize:22">Düşman karşında!</p>
-  <p>Senin HP: {{PLAYER_HP}}</p>
-  <p>Düşman HP: {{ENEMY_HP}}</p>
+  <for each="index" in="indexlist(#PLAYER_LIST)">
+    <p>sen {{PLAYER_LIST[index]}} {{PLAYER_ENERGY[index]}}</p>
+  </for>
 
-  <keypress key="space">
-    if ENEMY_HP > 0 then
-      ENEMY_HP = ENEMY_HP - 1
-      print("Saldırdın! ENEMY_HP=", ENEMY_HP)
-    end
-    if ENEMY_HP <= 0 then
-      router.goto("victory")
-    end
-  </keypress>
+  <button style="color:#000000; backcolor:#96ffb0; focuscolor:#0000ff; fontsize:20">Ana Menü</button>
+  <button style="color:#000000; backcolor:#96ffb0; fontsize:20">Ana Menü2</button>
 
-  <button style="fontsize:20; backcolor:#dddddd" onclick="router.goto('main_menu')">
-    Kaç
-  </button>
-</page>
-
-<!-- Kazanma -->
-<page name="victory">
-  <p style="fontsize:28; color:#00aa00">Tebrikler {{PLAYER_NAME}}!</p>
-  <p>Düşmanı yendin 🎉</p>
-  <button style="fontsize:20; backcolor:#aaffaa" onclick="router.goto('main_menu')">
-    Ana Menüye Dön
-  </button>
-</page>
-
-<!-- Kaybetme -->
-<page name="defeat">
-  <p style="fontsize:28; color:#aa0000">Kaybettin {{PLAYER_NAME}}</p>
-  <p>Düşman seni yendi...</p>
-  <button style="fontsize:20; backcolor:#dddddd" onclick="router.goto('main_menu')">
-    Ana Menüye Dön
-  </button>
 </page>
