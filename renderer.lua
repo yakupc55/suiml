@@ -44,7 +44,7 @@ function renderer.renderNode(node)
     end
     -- renk ve backcolor
     if node.style.color then
-       print("node: ",node.name)
+    --    print("node: ",node.name)
         local col = colors.get(node.style.color)
         node.style.color = {col[1], col[2], col[3], 1}
     else
@@ -70,38 +70,38 @@ function renderer.renderNode(node)
     local x, y
     -- print(node.name,renderer.cursorX,renderer.cursorY,x,y,renderer.spacing)
     -- bazı özel node’lar alt satıra geçer
-    if node.name == "page" or node.name == "load" then
-        x = 0
-        y = 0
-        renderer.cursorX = 0
-        renderer.cursorY = 0
-    --es geçilip kendi sisteminde ayarlananlar
-    elseif node.name == "img" then
-    elseif node.name == "for" or node.name == "if" or node.name == "else" then
-        renderer.cursorX = renderer.cursorX
-        renderer.cursorY = renderer.cursorY
-    -- elseif node.name == "p" or node.name == "br" then
-    --     -- alt satıra geç ve node boyutunu dikkate al
-    --     print("renderer.spacing p: ",renderer.spacing)
-    --     x = renderer.cursorX
-    --     y = renderer.cursorY
-    --     renderer.cursorY = renderer.cursorY + renderer.spacing;
+    -- if node.name == "page" or node.name == "load" then
+    --     x = 0
+    --     y = 0
     --     renderer.cursorX = 0
-    --     --renderer.cursorY = renderer.cursorY + height;
-    --     renderer.spacing = height;
-    --     --renderer.cursorX = width + renderer.spacing
-    --     --lineHeight = height
+    --     renderer.cursorY = 0
+    -- --es geçilip kendi sisteminde ayarlananlar
+    -- elseif node.name == "img" then
+    -- elseif node.name == "for" or node.name == "if" or node.name == "else" then
+    --     renderer.cursorX = renderer.cursorX
+    --     renderer.cursorY = renderer.cursorY
+    -- -- elseif node.name == "p" or node.name == "br" then
+    -- --     -- alt satıra geç ve node boyutunu dikkate al
+    -- --     print("renderer.spacing p: ",renderer.spacing)
+    -- --     x = renderer.cursorX
+    -- --     y = renderer.cursorY
+    -- --     renderer.cursorY = renderer.cursorY + renderer.spacing;
+    -- --     renderer.cursorX = 0
+    -- --     --renderer.cursorY = renderer.cursorY + height;
+    -- --     renderer.spacing = height;
+    -- --     --renderer.cursorX = width + renderer.spacing
+    -- --     --lineHeight = height
 
-    else
-        -- -- normal node: x yönünde sırala
-        -- x = renderer.cursorX
-        -- y = renderer.cursorY
-        -- renderer.cursorX = renderer.cursorX + width + renderer.spacing
-        -- renderer.spacing = height;
-        -- --lineHeight = math.max(lineHeight, height)
-    end
-    -- print(node.name,renderer.cursorX,renderer.cursorY,x,y,renderer.spacing)
-    -- node çizimi
+    -- else
+    --     -- -- normal node: x yönünde sırala
+    --     -- x = renderer.cursorX
+    --     -- y = renderer.cursorY
+    --     -- renderer.cursorX = renderer.cursorX + width + renderer.spacing
+    --     -- renderer.spacing = height;
+    --     -- --lineHeight = math.max(lineHeight, height)
+    -- end
+    -- -- print(node.name,renderer.cursorX,renderer.cursorY,x,y,renderer.spacing)
+    -- -- node çizimi
     if node.name == "if" then
             local ok = false
             if node.attributes["condition"] then

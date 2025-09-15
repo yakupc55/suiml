@@ -43,9 +43,12 @@ function love.keypressed(key)
     if (key == "s" or key == "down") and FOCUS_MODE then focus.next() 
     elseif (key == "w" or key == "up") and FOCUS_MODE then focus.prev() 
     elseif key == "z" and FOCUS_MODE then
+        print("z key")
         local current = focus.getCurrent()
-        if current and current.tag == "button" then
-            if current.goto then router.goto(current.goto) end
+        if current and current.name == "button" then
+            print("yes")
+            if current.attributes["goto"] then router.goto(current.attributes["goto"]) end
+            if current.attributes["onclick"] then load(current.attributes["onclick"] )() end
         end
     elseif key=="return" then
         FOCUS_MODE = (not FOCUS_MODE)
