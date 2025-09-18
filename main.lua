@@ -14,6 +14,9 @@ function indexlist(count, start, step)
     return t
 end
 function love.load()
+    windowWidth, windowHeight = 720, 720
+    -- Pencereyi belirtilen boyutta açmak için setMode kullanılır
+    love.window.setMode(windowWidth, windowHeight)
     renderer.init()
     loader.loadAll()
 end
