@@ -1,5 +1,5 @@
 <load>
-  <settings FPS=30 />  
+  <settings fps=30 />  
   <config key="PLAYER_NAME">player</config>
   <config key="IS_HARD_MODE" type="boolean">true</config>
   <config key="PLAYER_LIST" type="list">Alice,Bob,Charlie</config>

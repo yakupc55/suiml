@@ -1,7 +1,7 @@
 local loadtag = {}
 local focus = require("focus")
 local template = require("template")
-local settings = require("template")
+local settings = require("settings")
 function loadtag.process(node,loader)
     for _, child in ipairs(node.nodes or {}) do
         -- print(child.name)
@@ -9,7 +9,7 @@ function loadtag.process(node,loader)
             local func, err = load(child:getcontent())
             if func then func() end
         elseif child.name == "settings" then
-            settings.process(node)
+            settings.process(child)
         elseif child.name == "config" then
             -- print(type(child.attributes))
             -- for i in child.attributes do

@@ -3,7 +3,7 @@ local focus = require("focus")
 local router = require("router")
 local loader = require("loader")
 FOCUS_MODE=true
-local __targetFPS = 30
+__targetFPS = 60
 local __sleepTime 
 local __lastTime = love.timer.getTime()
 function indexlist(count, start, step)
@@ -22,6 +22,7 @@ function love.load()
     love.window.setMode(windowWidth, windowHeight)
     renderer.init()
     loader.loadAll()
+    print("fps : ",__targetFPS )
 end
 function resetValues()
 renderer.resetValues()
