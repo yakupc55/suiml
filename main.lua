@@ -3,7 +3,9 @@ local focus = require("focus")
 local router = require("router")
 local loader = require("loader")
 FOCUS_MODE=true
-
+local __targetFPS = 30
+local __sleepTime 
+local __lastTime = love.timer.getTime()
 function indexlist(count, start, step)
     local t = {}
     start = start or 1
@@ -14,6 +16,7 @@ function indexlist(count, start, step)
     return t
 end
 function love.load()
+    love.timer.step()
     windowWidth, windowHeight = 720, 720
     -- Pencereyi belirtilen boyutta açmak için setMode kullanılır
     love.window.setMode(windowWidth, windowHeight)
@@ -24,6 +27,7 @@ function resetValues()
 renderer.resetValues()
 end
 function love.draw()
+    local __currentTime = love.timer.getTime()
     -- print("---start---")
     resetValues()
     focus.reset()
@@ -34,7 +38,12 @@ function love.draw()
     else
         love.graphics.print("No area loaded!")
     end
-    love.timer.sleep(0.02)
+    local __elapsedTime = __currentTime - __lastTime
+    __lastTime = love.timer.getTime()
+    __sleepTime = (1 / __targetFPS)
+    if __elapsedTime>__sleepTime then __sleepTime = 0 else __sleepTime = __sleepTime-__elapsedTime end
+    love.timer.sleep(__sleepTime)
+    -- print(__sleepTime)
 end
 
 function love.keypressed(key)
