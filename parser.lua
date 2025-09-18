@@ -1,4 +1,4 @@
--- parser.lua
+-- parser.lua this old system
 local parser = {}
 
 -- attrs stringini tabloya çevirir

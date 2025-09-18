@@ -17,5 +17,6 @@ return {
 	track = true,
 	wbr = true,
 	back = true,
-	space = true
+	space = true,
+	settings = true
 }
