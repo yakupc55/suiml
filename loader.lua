@@ -20,8 +20,6 @@ function printTable(t, seen)
 end
 
 
-
-
 loader.globalKeypress = {} -- <load> içindeki keypress eventleri
 
 local function scanDir(path, files)
