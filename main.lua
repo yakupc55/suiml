@@ -2,10 +2,14 @@ local renderer = require("renderer")
 local focus = require("focus")
 local router = require("router")
 local loader = require("loader")
+local __functions = require("functions.functionList")
+local template = require("template")
 FOCUS_MODE=true
 __targetFPS = 60
 local __sleepTime 
 local __lastTime = love.timer.getTime()
+math.randomseed(os.time())
+
 function indexlist(count, start, step)
     local t = {}
     start = start or 1
@@ -56,12 +60,15 @@ function love.keypressed(key)
     if (key == "s" or key == "down") and FOCUS_MODE then focus.next() 
     elseif (key == "w" or key == "up") and FOCUS_MODE then focus.prev() 
     elseif key == "z" and FOCUS_MODE then
-        print("z key")
+        -- print("z key")
         local current = focus.getCurrent()
         if current and current.name == "button" then
-            print("yes")
+            -- print("yes")
             if current.attributes["goto"] then router.goto(current.attributes["goto"]) end
-            if current.attributes["onclick"] then load(current.attributes["onclick"] )() end
+            if current.attributes["onclick"] then
+                local code = current.attributes["onclick"]
+                 load(code )() 
+                 end
         end
     elseif key=="return" then
         FOCUS_MODE = (not FOCUS_MODE)

@@ -52,7 +52,7 @@ local function processPage(pageNode)
         elseif child.name == "keypress" and child:getcontent() then
             pageNode.keypress = pageNode.keypress or {}
             local key = child.attributes["key"]
-            print(key)
+            --print(key)
             if key then
                 pageNode.keypress[key] = child:getcontent()
             end

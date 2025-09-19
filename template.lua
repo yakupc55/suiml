@@ -1,6 +1,5 @@
 -- template.lua
 local template = {}
-
 function template.render(localData, str)
     return (str:gsub("{{(.-)}}", function(code)
         local fn, err = load("return " .. code, "template", "t", setmetatable({}, { __index = function(_, k)
@@ -21,6 +20,17 @@ function template.render(localData, str)
             return ""
         end
     end))
+end
+
+function template.renderAction(renderer,code)
+    return (code or ""):gsub("@(%w+)", function(key)
+        if renderer.context and renderer.context[key] ~= nil then
+            return tostring(renderer.context[key])
+        elseif _G[key] ~= nil then
+            return tostring(_G[key])
+        end
+        return "nil"
+    end)
 end
 
 return template

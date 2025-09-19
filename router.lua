@@ -29,7 +29,7 @@ function router.register(pageNode)
     end
 
     router.areas[pageNode.attributes["name"]] = pageNode
-    print(pageNode.attributes["name"])
+    --print(pageNode.attributes["name"])
 end
 
 -- area değişimi
