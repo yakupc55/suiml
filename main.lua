@@ -26,7 +26,7 @@ function love.load()
     love.window.setMode(windowWidth, windowHeight)
     renderer.init()
     loader.loadAll()
-    print("fps : ",__targetFPS )
+    --print("fps : ",__targetFPS )
 end
 function resetValues()
 renderer.resetValues()
