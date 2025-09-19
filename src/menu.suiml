@@ -37,10 +37,12 @@
   <l style="color:#000000; fontsize:24"> SEÇİM LİSTESİ :</l>
   <for each="index" in="indexlist(#CHOSED_LIST)">
     <space width=10 />
-    <button style="color:#000000; backcolor:#96ffb0; fontsize:20" onclick="print(@index)">{{CHOSED_LIST[index]}}</button>
+    <button style="color:#000000; backcolor:#96ffb0; fontsize:20" 
+    onclick="CHOOSE_MODE = not CHOOSE_MODE; CHOOSE_INDEX = @index">{{CHOSED_LIST[index]}}</button>
   </for>
-  <br height=50 /><space width=80 />
+  <br height=50 /><space width=40 />
   <if condition="CHOOSE_MODE">
+    <l style="color:#000000; fontsize:24"> KARAKTER LİSTESİ :</l>
     <for each="index" in="indexlist(#SYMBOL_LIST)">
       <space width=10 />
       <button style="color:#000000; backcolor:#96ffb0; fontsize:20" >{{SYMBOL_LIST[index]}}</button>
