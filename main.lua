@@ -1,6 +1,6 @@
 local renderer = require("renderer")
 local focus = require("focus")
-local router = require("router")
+router = require("router")
 local loader = require("loader")
 local __functions = require("functions.functionList")
 local template = require("template")

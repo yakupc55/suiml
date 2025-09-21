@@ -6,13 +6,25 @@
   <config key="START_LIST" type="list">+,+,+,+,+</config>
   <config key="CHOSED_LIST" type="list">+,+,+,+,+</config>
   <config key="HISTORY_LIST" type="list"></config>
-  <config key="COLOR_LIST" type="list">0,0,0,0,0</config>
+  <config key="MATCH_LIST" type="list"></config>
   <config key="WIN_LIST" type="list"></config>
   <config key="CHOOSE_INDEX" type="number">0</config>
+  <config key="TURN_COUNTER" type="number">1</config>
   <config key="CHOOSE_MODE" type="boolean">false</config>
   <script>
     function nextPlayer()
-      if CURRENT_PLAYER == PLAYER_LIST[0] then CURRENT_PLAYER = PLAYER_LIST[1] else CURRENT_PLAYER = PLAYER_LIST[0] end
+      if CURRENT_PLAYER == PLAYER_LIST[1] then CURRENT_PLAYER = PLAYER_LIST[2] else CURRENT_PLAYER = PLAYER_LIST[1] end
+    end
+    function listControl()
+      if (listsEqual(CHOSED_LIST,WIN_LIST)) then
+      router.goto("winner")
+      else
+        nextPlayer()
+        local matches = mapListMatches(CHOSED_LIST,WIN_LIST)
+        listPushMax(HISTORY_LIST,5,copyOfList(CHOSED_LIST))
+        listPushMax(MATCH_LIST,5,matches)
+        TURN_COUNTER = 1 + TURN_COUNTER
+      end
     end
   </script>
 </load>
@@ -27,11 +39,16 @@
 
 <page name="start">
   <onEnter>
+    CURRENT_PLAYER="Player1"; TURN_COUNTER=1; 
+    CHOOSE_INDEX=0; CHOOSE_MODE=false;
+    HISTORY_LIST ={}; MATCH_LIST = {};
+    listValuesCopy(START_LIST,CHOSED_LIST)
     WIN_LIST = randomChoiceFromList(SYMBOL_LIST,5)
     printList(WIN_LIST)
   </onEnter>
   <back style="backcolor:#ffffff;" />
-  <br height=200 />   <space width=100 />
+  
+  <br height=100 />   <space width=100 />
   <p style="color:#ff0000; fontsize:24">oyun başladı sıra {{CURRENT_PLAYER}} adlı oyuncudadır.</p>
   <br height=20 />  <space width=120 />
   <l style="color:#000000; fontsize:24"> SEÇİM LİSTESİ :</l>
@@ -55,10 +72,42 @@
       onclick="CHOSED_LIST[CHOOSE_INDEX]= SYMBOL_LIST[@index]">{{SYMBOL_LIST[index]}}</button>
     </for>
   <else>
-    <p>değiştireceğiniz karekteri seçin</p>
+    <p style="color:#000000; fontsize:24">değiştireceğiniz karekteri seçin</p>
   </else>
   </if>
-  
+   <br height=20 />  <space width=270 />
+    <button style="color:#000000; backcolor:#96ffb0; fontsize:20" onclick="listControl()">Onayla</button>
     <br height=20 />  <space width=270 />
-    <button style="color:#000000; backcolor:#96ffb0; fontsize:20" goto="main">ANASAYFA</button>
+    <button style="color:#000000; backcolor:#96ffb0; fontsize:20" goto="main">Anasayfa</button>
+    <br height=50 />   <space width=250 />
+   <p style="color:#ff0000; fontsize:24">Deneme sırası : {{TURN_COUNTER}}</p>
+  <br height=20 />
+  <for each="row" in="indexlist(#HISTORY_LIST)">
+    <space width=100 />
+    <l style="color:#000000; fontsize:24">  {{row}} deneme öncesi :</l>
+    <for each="index" in="indexlist(5)">
+      <space width=10 />
+      <if condition="MATCH_LIST[#MATCH_LIST+1-@row][@index] == 0">
+        <l style="color:#ff0808; fontsize:24">{{HISTORY_LIST[#HISTORY_LIST+1-row][index]}}</l>
+        <elif condition="MATCH_LIST[#MATCH_LIST+1-@row][@index] == 1">
+        <l style="color:#09ff00; fontsize:24">{{HISTORY_LIST[#HISTORY_LIST+1-row][index]}}</l>
+        </elif>
+        <else>
+        <l style="color:#ffe600; fontsize:24">{{HISTORY_LIST[#HISTORY_LIST+1-row][index]}}</l>
+        </else>
+      </if>
+    </for>
+    <br height=20 />
+  </for>
   </page>
+<page name="winner">
+    <back style="backcolor:#ffffff;" />
+    <br height=200 />   <space width=80 />
+    <p style="color:#ff0000; fontsize:24">Tebrikler {{CURRENT_PLAYER}} adlı oyuncu yarışmayı kazandı.</p>
+    <br height=20 />   <space width=150 />
+    <p style="color:#ff0000; fontsize:24">Oyunu {{TURN_COUNTER}}. denemenizde kazandınız.</p>
+    <br height=20 />  <space width=270 />
+    <button style="color:#000000; backcolor:#96ffb0; fontsize:20" goto="start">Yeniden Oyna</button>
+        <br height=20 />  <space width=270 />
+    <button style="color:#000000; backcolor:#96ffb0; fontsize:20" goto="main">Anasayfa</button>
+</page>
